@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +21,8 @@ public class Student implements Serializable {
     private Integer studentID; // 学号
     private String name; // 姓名
     private Integer sex; // 性别
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date birthday; //  出生日期
     private Integer facultyNO; // 院系
 

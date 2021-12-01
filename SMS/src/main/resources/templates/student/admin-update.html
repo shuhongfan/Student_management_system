@@ -8,7 +8,7 @@
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <div th:replace="common/common :: copy"></div>
-    <title>添加教工 - 教工管理 - H-ui.admin v3.1</title>
+    <title>添加学生 - 学生管理 - H-ui.admin v3.1</title>
     <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
     <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
@@ -16,15 +16,28 @@
 <article class="page-container">
     <form class="form form-horizontal" id="form-admin-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>教工编号：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学号：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" readonly th:value="${teacher.teacherID}" placeholder="" id="teacherID" name="teacherID">
+                <input type="text" class="input-text" readonly th:value="${student.studentID}" placeholder="" id="studentID" name="studentID">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${teacher.name}" placeholder="" id="name" name="name">
+                <input type="text" class="input-text" th:value="${student.name}" placeholder="" id="name" name="name">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input name="sex" type="radio" value="1" id="sex-1" checked style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="sex-1" class="">男</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="sex-0" name="sex" value="0" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="sex-0" class="">女</label>
+                </div>
             </div>
         </div>
         <div class="row cl">
@@ -33,21 +46,44 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="select-box">
 				<select  name="facultyNO" class="select valid" aria-required="true" aria-invalid="false">
-					<option th:each="f : ${facultyList}" th:selected="${f.facultyNO}==${teacher.facultyNO}" th:value="${f.facultyNO}" th:text="${f.facultyName}">全部类型</option>
+					<option th:each="f : ${facultyList}" th:selected="${f.facultyNO}==${student.facultyNO}" th:value="${f.facultyNO}" th:text="${f.facultyName}">全部类型</option>
 				</select>
 				</span>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专业方向：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生日：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${teacher.speciality}" placeholder="" id="speciality" name="speciality">
+                <input type="text" name="birthday" class="input-text datetimepicker-input" th:value="${#dates.format(student.birthday, 'yyyy-MM-dd HH:mm')}" readonly="" autocomplete="off" id="datetimepicker-demo-7">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>职称：</label>
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>班级：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${teacher.title}" placeholder="" id="title" name="title">
+                <span class="select-box">
+				<select  name="classNO" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="c : ${classList}" th:selected="${c.classNO}==${student.classNO}" th:value="${c.classNO}" th:text="${c.classNO}">全部类型</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${student.address}" placeholder="" id="address" name="address">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${student.phone}" placeholder="" id="phone" name="phone">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>备注：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${student.remark}" placeholder="" id="remark" name="remark">
             </div>
         </div>
         <div class="row cl">
@@ -71,6 +107,13 @@
                 radioClass: 'iradio-blue',
                 increaseArea: '20%'
             });
+        $("#datetimepicker-demo-7").datetimepicker({
+            language: "zh-cn",
+            // format: "yyyy-mm-dd",
+            // minView: "month",
+            autoclose: true,
+            todayBtn: true
+        });
             $("#form-admin-add").validate({
                 rules: {
                     name: {
@@ -88,7 +131,7 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post',
-                        url: ctxPath + "teacher/teacherUpdate",
+                        url: ctxPath + "student/studentUpdate",
                         success: function (data) {
                             console.log(data)
                             if (data.code == 100) {

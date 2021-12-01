@@ -114,6 +114,8 @@ public class StudentController {
     public String toStudentUpdate(@PathVariable("id") Integer id,Model model){
         List<Faculty> facultyList = facultyController.toFacultyList();
         model.addAttribute("facultyList",facultyList);
+        List<Class> classList = classController.toClassList();
+        model.addAttribute("classList",classList);
         Student s = StudentMapper.selectById(id);
         model.addAttribute("student",s);
         return "student/admin-update";
