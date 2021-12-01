@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SMS/SMS.iml" filepath="$PROJECT_DIR$/SMS/SMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Student_management_system.iml" filepath="$PROJECT_DIR$/.idea/Student_management_system.iml" />
+    </modules>
+  </component>
+</project>

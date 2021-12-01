@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="copy">
+        <link rel="Bookmark" th:href="@{/favicon.ico}" >
+        <link rel="Shortcut Icon" th:href="@{/favicon.ico}" />
+
+        <script type="text/javascript" th:src="@{/lib/html5shiv.js}"></script>
+        <script type="text/javascript" th:src="@{/lib/respond.min.js}"></script>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui/css/H-ui.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui.admin/css/H-ui.admin.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/lib/Hui-iconfont/1.0.8/iconfont.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui.admin/skin/red/skin.css}" id="skin" />
+        <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui.admin/css/style.css}" />
+
+        <script type="text/javascript" th:src="@{/lib/DD_belatedPNG_0.0.8a-min.js}" ></script>
+        <script>DD_belatedPNG.fix('*');</script>
+
+        <!--_footer 作为公共模版分离出去-->
+        <script type="text/javascript" th:src="@{/lib/jquery/1.9.1/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/lib/layer/2.4/layer.js}"></script>
+        <script type="text/javascript" th:src="@{/static/h-ui/js/H-ui.min.js}"></script>
+        <script type="text/javascript" th:src="@{/static/h-ui.admin/js/H-ui.admin.js}"></script>
+        <!--/_footer 作为公共模版分离出去-->
+    </div>
+</body>
+</html>
+
+

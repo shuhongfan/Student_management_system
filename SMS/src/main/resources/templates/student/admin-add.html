@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <div th:replace="common/common :: copy"></div>
+    <title>添加学生 - 学生管理 - H-ui.admin v3.1</title>
+    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+    <form class="form form-horizontal" id="form-admin-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="studentID" name="studentID">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input name="sex" type="radio" value="1" id="sex-1" checked style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="sex-1" class="">男</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="sex-0" name="sex" value="0" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="sex-0" class="">女</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>院系：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="facultyNO" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="f : ${facultyList}" th:value="${f.facultyNO}" th:text="${f.facultyName}">全部类型</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生日：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="birthday" class="input-text datetimepicker-input" value="" readonly="" autocomplete="off" id="datetimepicker-demo-7">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>班级：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="facultyNO" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="c : ${classList}" th:value="${c.classNO}" th:text="${c.classNO}">全部类型</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="address" name="address">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>备注：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="remark" name="remark">
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input id="submit" class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+            var ctxPath = [[@{/}]];
+                $("#datetimepicker-demo-7").datetimepicker({
+                    language: "zh-cn",
+                    // format: "yyyy-mm-dd",
+                    // minView: "month",
+                    autoclose: true,
+                    todayBtn: true
+                });
+            $('.skin-minimal input').iCheck({
+                checkboxClass: 'icheckbox-blue',
+                radioClass: 'iradio-blue',
+                increaseArea: '20%'
+            });
+            $("#form-admin-add").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 16
+                    },
+                    facultyNO: {
+                        required: true,
+                    }
+                },
+                onkeyup: false,
+                focusCleanup: true,
+                success: "valid",
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        type: 'post',
+                        url: ctxPath + "student/studentAdd",
+                        success: function (data) {
+                            console.log(data)
+                            if (data.code == 100) {
+                                layer.msg('添加成功!', {icon: 1, time: 1000});
+                            }
+                            if (data.code == 500) {
+                                layer.msg('添加失败!', {icon: 2, time: 1000});
+                            }
+                        },
+                        error: function (XmlHttpRequest, textStatus, errorThrown) {
+                            layer.msg('error!', {icon: 1, time: 1000});
+                        }
+                    });
+                    setTimeout(function() {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.parent.location.reload();
+                        parent.layer.close(index);
+                    },2000)
+                }
+            });
+        })
+</script>
+</body>
+</html>
