@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("teacher")
 public class Teacher implements Serializable {
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer teacherID; // 教工编号
     private String name;  // 姓名
     private Integer facultyNO; // 院系

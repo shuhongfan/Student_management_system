@@ -36,8 +36,16 @@ public class LoginController {
             if (u1 != null){
                 // 用户存在 判断密码是否一致
                 if (u1.getPassword().equals(user.getPassword())){
-                    model.addAttribute("info","登录成功！！！");
-                    return "redirect:index";
+                    if (u1.getDisabled()==0){
+                        model.addAttribute("info","登录成功！！！");
+                        User u = userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()));
+                        u.setPassword("******");
+                        httpSession.setAttribute("USER",u);
+                        return "redirect:index";
+                    } else {
+                        model.addAttribute("info","用户已被禁用，请联系管理员！！！");
+                        return "login";
+                    }
                 } else {
                     model.addAttribute("info","用户名或密码错误，请重新输入！！！");
                     return "login";

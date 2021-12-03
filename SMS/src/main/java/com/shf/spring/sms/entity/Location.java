@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("location")
 public class Location implements Serializable {
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer locationNo; // 地点ID
     private String locationName;  // 地点名称
 }

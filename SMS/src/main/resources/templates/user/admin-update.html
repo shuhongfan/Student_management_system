@@ -124,6 +124,11 @@
                             console.log(data)
                             if (data.code == 100) {
                                 layer.msg('修改成功!', {icon: 1, time: 1000});
+                                setTimeout(function() {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    window.parent.location.reload();
+                                    parent.layer.close(index);
+                                },2000)
                             }
                             if (data.code == 500) {
                                 layer.msg('修改失败!', {icon: 2, time: 1000});
@@ -133,11 +138,7 @@
                             layer.msg('error!', {icon: 1, time: 1000});
                         }
                     });
-                    setTimeout(function() {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        window.parent.location.reload();
-                        parent.layer.close(index);
-                    },2000)
+
                 }
             });
         })

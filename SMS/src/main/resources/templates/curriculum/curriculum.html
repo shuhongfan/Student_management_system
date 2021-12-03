@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <div th:replace="common/common :: copy"></div>
+    <script th:src="@{/lib/Timetable/Timetables.min.js}"></script>
+    <title>大学课表</title>
+    <style>
+        #coursesTable {
+            padding: 15px 10px;
+        }
+
+        .Courses-head {
+            background-color: #edffff;
+        }
+
+        .Courses-head > div {
+            text-align: center;
+            font-size: 14px;
+            line-height: 28px;
+        }
+
+        .left-hand-TextDom, .Courses-head {
+            background-color: #f2f6f7;
+        }
+
+        .Courses-leftHand {
+            background-color: #f2f6f7;
+            font-size: 12px;
+        }
+
+        .Courses-leftHand .left-hand-index {
+            color: #9c9c9c;
+            margin-bottom: 4px !important;
+        }
+
+        .Courses-leftHand .left-hand-name {
+            color: #666;
+        }
+
+        .Courses-leftHand p {
+            text-align: center;
+            font-weight: 900;
+        }
+
+        .Courses-head > div {
+            border-left: none !important;
+        }
+
+        .Courses-leftHand > div {
+            padding-top: 5px;
+            border-bottom: 1px dashed rgb(219, 219, 219);
+        }
+
+        .Courses-leftHand > div:last-child {
+            border-bottom: none !important;
+        }
+
+        .left-hand-TextDom, .Courses-head {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .Courses-content > ul {
+            border-bottom: 1px dashed rgb(219, 219, 219);
+            box-sizing: border-box;
+        }
+
+        .Courses-content > ul:last-child {
+            border-bottom: none !important;
+        }
+
+        .highlight-week {
+            color: #02a9f5 !important;
+        }
+
+        .Courses-content li {
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+            line-height: 50px;
+        }
+
+        .Courses-content li span {
+            padding: 6px 2px;
+            box-sizing: border-box;
+            line-height: 18px;
+            border-radius: 4px;
+            white-space: normal;
+            word-break: break-all;
+            cursor: pointer;
+        }
+
+        .grid-active {
+            z-index: 9999;
+        }
+
+        .grid-active span {
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont"></i> 首页 <span class="c-gray en">&gt;</span> 课程表中心 <span class="c-gray en">&gt;</span> 我的课程表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:curriculum.replace(curriculum.href);" title="刷新"><i class="Hui-iconfont"></i></a></nav>
+<div class="page-container">
+    <div class="text-c">
+        <span  th:if="${session.USER.type!=0}">
+            <label for="teacherID">教师</label>
+            <span class="select-box inline">
+            <select id="teacherID" class="select">
+                <option value="404">全部教师</option>
+                <option th:each="t: ${distinctTeacherID}" th:value="${t.teacherID}" th:text="${t.name}">全部分类</option>
+            </select>
+            </span>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </span>
+
+        <label for="classNO">班级</label>
+        <span class="select-box inline">
+		<select id="classNO" class="select">
+            <option value="404">全部班级</option>
+			<option th:each="c: ${distinctClassNO}" th:selected="${#dates.format(new java.util.Date().getTime(), 'yyyy')}==${c.classNO}" th:value="${c.classNO}" th:text="${c.classNO}">全部分类</option>
+		</select>
+		</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <label for="schoolYear">学年</label>
+        <span class="select-box inline">
+		<select id="schoolYear" class="select">
+			<option th:each="y: ${distinctSchoolYear}" th:selected="${#dates.format(new java.util.Date().getTime(), 'yyyy')}==${y.schoolYear}" th:value="${y.schoolYear}" th:text="${y.schoolYear}">全部分类</option>
+		</select>
+		</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <label for="term">学期</label>
+        <span class="select-box inline">
+		<select id="term" class="select">
+			<option value="0">上学期</option>
+			<option value="1">下学期</option>
+		</select>
+		</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <button onclick="onChange()"
+                style="background-color: #00a2ae; color: #fff; padding: 5px 10px; border-radius: 4px;border: none">
+            切换课表
+        </button>
+    </div>
+    <div id="coursesTable"></div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+    // 新建二维数组
+    let arr = new Array(7)
+    for(let i = 0;i < arr.length;++i){
+        arr[i] = new Array(12)
+    }
+    for(let j = 0; j <arr.length;++j){
+        for (let i = 0; i < arr[j].length; i++) {
+            arr[j][i]=""
+        }
+    }
+    var week = window.innerWidth > 360 ? ['周一', '周二', '周三', '周四', '周五','周六','周日'] :
+        ['一', '二', '三', '四', '五','六','日'];
+    var day = new Date().getDay();
+    var courseType = [
+        [{index: '1', name: '8:00'}, 1],
+        [{index: '2', name: '8:55'}, 1],
+        [{index: '3', name: '10:00'}, 1],
+        [{index: '4', name: '10:55'}, 1],
+        [{index: '5', name: '14:00'}, 1],
+        [{index: '6', name: '14:55'}, 1],
+        [{index: '7', name: '16:00'}, 1],
+        [{index: '8', name: '16:55'}, 1],
+        [{index: '9', name: '19:00'}, 1],
+        [{index: '10', name: '19:55'}, 1],
+        [{index: '11', name: '20:50'}, 1],
+        [{index: '12', name: '21:45'}, 1]
+    ];
+
+    // 实例化(初始化课表)
+    var Timetable = new Timetables({
+        el: '#coursesTable',
+        timetables: arr,
+        week: week,
+        timetableType: courseType,
+        highlightWeek: day,
+        gridOnClick: function (e) {
+            alert(e.name + '  ' + e.week + ', 第' + e.index + '节课, 课长' + e.length + '节');
+            console.log(e);
+        },
+        styles: {
+            Gheight: 50
+        }
+    });
+
+    //切换课表
+    function onChange() {
+        var ctxPath = [[@{/}]];
+        let schoolYear=$("#schoolYear").val()
+        let term=$("#term").val()
+        let classNO=$("#classNO").val()==null?"404":$("#classNO").val()
+        let teacherID=$("#teacherID").val()==null?"404":$("#teacherID").val()
+        $.get(ctxPath+"curriculum/myCurriculum?schoolYear="+schoolYear+"&term="+term+"&classNO="+classNO+"&teacherID="+teacherID,function(data,status){
+            // 新建二维数组
+            var arr = new Array(7)
+            for(let i = 0;i < arr.length;++i){
+                arr[i] = new Array(12)
+            }
+            for(let j = 0; j <arr.length;++j){
+                for (let i = 0; i < arr[j].length; i++) {
+                    arr[j][i]=""
+                }
+            }
+            if (data.code ==100) {
+                console.log("数据: " + data + "\n状态: " + status);
+                var curriculumList = data.curriculumList
+                // 新建二维数组
+                arr = new Array(7)
+                for(let i = 0;i < arr.length;++i){
+                    arr[i] = new Array(12)
+                }
+                for(let j = 0; j <arr.length;++j){
+                    for (let i = 0; i < arr[j].length; i++) {
+                        arr[j][i]=""
+                    }
+                }
+                for (let i = 0; i < curriculumList.length; i++) {
+                    let weekday=curriculumList[i].weekday
+                    let section=curriculumList[i].section
+                    arr[weekday-1][section-1]=curriculumList[i].courseName+"@"+curriculumList[i].name+" ("+
+                        curriculumList[i].startWeek+"~"+curriculumList[i].endWeek+")   "+
+                        curriculumList[i].locationName+curriculumList[i].classRoomNO
+                }
+                console.log(arr)
+            }
+            Timetable.setOption({
+                timetables: arr,
+                week: week,
+                timetableType: courseType,
+                highlightWeek: day,
+                gridOnClick: function (e) {
+                    alert(e.name + '  ' + e.week + ', 第' + e.index + '节课, 课长' + e.length + '节');
+                    console.log(e);
+                },
+                styles: {
+                    Gheight: 50
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

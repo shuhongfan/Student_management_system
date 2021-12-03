@@ -4,9 +4,8 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shf.spring.sms.entity.Faculty;
-import com.shf.spring.sms.entity.Teacher;
-import com.shf.spring.sms.entity.User;
+import com.shf.spring.sms.entity.*;
+import com.shf.spring.sms.entity.Class;
 import com.shf.spring.sms.mapper.FacultyMapper;
 import com.shf.spring.sms.mapper.TeacherMapper;
 import com.shf.spring.sms.mapper.UserMapper;
@@ -33,7 +32,30 @@ public class TeacherController {
     @Autowired
     private FacultyController facultyController;
 
-    @GetMapping("/teacher/teacherList")
+    @ResponseBody
+    @GetMapping("/teacher/isAvailableTeacherNO")
+    public HashMap<String, Object> isAvailableTeacherNO(Teacher teacher){
+        Teacher room = teacherMapper.selectById(teacher.getTeacherID());
+        HashMap<String, Object> map = new HashMap<>();
+        if (room == null){
+            map.put("code","100");
+            map.put("id",teacher.getTeacherID());
+        } else {
+            map.put("code","500");
+            map.put("id",teacher.getTeacherID());
+        }
+        return map;
+    }
+
+    public Teacher getTeacherById(Integer id){
+        return teacherMapper.selectById(id);
+    }
+
+    public List<Teacher> teacherList(){
+        return teacherMapper.selectList(null);
+    }
+
+    @GetMapping("/teacher/teacherListPage")
     public String toTeacherList(Model model){
         List<Teacher> teacherList = teacherMapper.selectList(null);
         for (Teacher teacher : teacherList) {
@@ -82,7 +104,7 @@ public class TeacherController {
     }
 
     @GetMapping("/teacher/teacherAdd")
-    public String toUserAdd(Model model){
+    public String totTeacherAdd(Model model){
         List<Faculty> facultyList = facultyController.toFacultyList();
         model.addAttribute("facultyList",facultyList);
         return "teacher/admin-add";

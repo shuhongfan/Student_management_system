@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("student")
 public class Student implements Serializable {
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer studentID; // 学号
     private String name; // 姓名
     private Integer sex; // 性别

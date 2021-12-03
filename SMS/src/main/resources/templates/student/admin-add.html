@@ -102,6 +102,31 @@
 <script type="text/javascript" th:inline="javascript">
     $(function () {
             var ctxPath = [[@{/}]];
+                $.validator.addMethod(  //添加自定义验证函数
+                    "validateStudentID",       //自定义验证函数的名称
+                    function(value,element,params){
+                        var deferred = $.Deferred();//创建一个延迟对象
+                        $.ajax({        //发送Ajax请求
+                            type:"GET",
+                            async:false,
+                            url:ctxPath+"student/isAvailableStudentNO",
+                            dataType:"json",    //数据类型为json,发回的数据已自动解析
+                            data:{
+                                studentID:function(){return $("#studentID").val();},
+                            },
+                            success:function(data){
+                                if (data.code==100) {
+                                    console.log(100)
+                                    deferred.resolve();
+                                } else {
+                                    deferred.reject();
+                                }
+                            }
+                        });
+                        return deferred.state() == "resolved" ? true : false;
+                    },
+                    "学号重复，请重新输入！！！"
+                );
                 $("#datetimepicker-demo-7").datetimepicker({
                     language: "zh-cn",
                     // format: "yyyy-mm-dd",
@@ -116,12 +141,27 @@
             });
             $("#form-admin-add").validate({
                 rules: {
-                    name: {
+                    studentID: {
                         required: true,
                         minlength: 1,
-                        maxlength: 16
+                        maxlength: 16,
+                        validateStudentID:true
                     },
-                    facultyNO: {
+                    name: {
+                        required: true,
+                    },sex: {
+                        required: true,
+                    },birthday: {
+                        required: true,
+                    },facultyNO: {
+                        required: true,
+                    },classNO: {
+                        required: true,
+                    },address: {
+                        required: true,
+                    },phone: {
+                        required: true,
+                    },remark: {
                         required: true,
                     }
                 },
@@ -136,6 +176,11 @@
                             console.log(data)
                             if (data.code == 100) {
                                 layer.msg('添加成功!', {icon: 1, time: 1000});
+                                setTimeout(function() {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    window.parent.location.reload();
+                                    parent.layer.close(index);
+                                },2000)
                             }
                             if (data.code == 500) {
                                 layer.msg('添加失败!', {icon: 2, time: 1000});
@@ -145,11 +190,7 @@
                             layer.msg('error!', {icon: 1, time: 1000});
                         }
                     });
-                    setTimeout(function() {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        window.parent.location.reload();
-                        parent.layer.close(index);
-                    },2000)
+
                 }
             });
         })

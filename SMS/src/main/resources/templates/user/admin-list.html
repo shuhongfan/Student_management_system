@@ -17,7 +17,7 @@
 			<a href="javascript:;" onclick="deleteBatchIds()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 			<a href="javascript:;" th:onclick="admin_add('添加用户',[[@{/}]]+'user/userAdd','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong id="count" th:text="${userList.size()}">88</strong> 条</span> </div>
 	<div class="mt-20">
-	<table id="table" class="table table-border table-bordered table-hover table-bg table-sort">
+	<table id="table" class="table table-border table-bordered table-hover table-bg table-sort" style="width: 100%;">
 		<thead>
 		<tr>
 			<th scope="col" colspan="9">员工列表</th>

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <div th:replace="common/common :: copy"></div>
+    <title>添加教室 - 教室管理 - H-ui.admin v3.1</title>
+    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+    <form class="form form-horizontal" id="form-admin-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>教室编号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="classRoomNO" name="classRoomNO">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>容量：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="capacity" name="capacity">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否多媒体教室：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input name="isMultimedia" type="radio" value="1" id="isMultimedia-1" checked style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="isMultimedia-1" class="">是</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="isMultimedia-0" name="isMultimedia" value="0" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="isMultimedia-0" class="">否</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>教室状态：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input type="radio" id="state-0" name="state" value="0" checked style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="state-0" class="">可用</label>
+                </div>
+                <div class="radio-box">
+                    <input name="state" type="radio" value="1" id="state-1"  style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                    <label for="state-1" class="">不可用</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>地点：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="locationNo" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="l : ${locationList}" th:value="${l.locationNo}" th:text="${l.locationName}">全部类型</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input id="submit" class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+            var ctxPath = [[@{/}]];
+            $.validator.addMethod(  //添加自定义验证函数
+                "validateClassRoomNO",       //自定义验证函数的名称
+                function(value,element,params){
+                    var deferred = $.Deferred();//创建一个延迟对象
+                    $.ajax({        //发送Ajax请求
+                        type:"GET",
+                        async:false,
+                        url:ctxPath+"classRoom/isAvailableClassRoomNO",
+                        dataType:"json",    //数据类型为json,发回的数据已自动解析
+                        data:{
+                            classRoomNO:function(){return $("#classRoomNO").val();},
+                        },
+                        success:function(data){
+                            if (data.code==100) {
+                                console.log(100)
+                                deferred.resolve();
+                            } else {
+                                deferred.reject();
+                            }
+                        }
+                    });
+                    return deferred.state() == "resolved" ? true : false;
+                },
+                "教室号重复，请重新输入！！！"
+            );
+            $('.skin-minimal input').iCheck({
+                checkboxClass: 'icheckbox-blue',
+                radioClass: 'iradio-blue',
+                increaseArea: '20%'
+            });
+            $("#form-admin-add").validate({
+                rules: {
+                    classRoomNO: {
+                        required: true,
+                        minlength: 1,
+                        validateClassRoomNO: true
+                    },
+                    capacity: {
+                        required: true,
+                    },isMultimedia: {
+                        required: true,
+                    },state: {
+                        required: true,
+                    },locationNo: {
+                        required: true,
+                    }
+                },
+                onkeyup: false,
+                focusCleanup: true,
+                success: "valid",
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        type: 'post',
+                        url: ctxPath + "classRoom/classRoomAdd",
+                        success: function (data) {
+                            console.log(data)
+                            if (data.code == 100) {
+                                layer.msg('添加成功!', {icon: 1, time: 1000});
+                                setTimeout(function() {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    window.parent.location.reload();
+                                    parent.layer.close(index);
+                                },2000)
+                            }
+                            if (data.code == 500) {
+                                layer.msg('添加失败!', {icon: 2, time: 1000});
+                            }
+                        },
+                        error: function (XmlHttpRequest, textStatus, errorThrown) {
+                            layer.msg('error!', {icon: 1, time: 1000});
+                        }
+                    });
+
+                }
+            });
+        })
+</script>
+</body>
+</html>

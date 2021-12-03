@@ -5,6 +5,7 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.shf.spring.sms.entity.Faculty;
 import com.shf.spring.sms.entity.Student;
+import com.shf.spring.sms.entity.Student;
 import com.shf.spring.sms.entity.Class;
 import com.shf.spring.sms.mapper.StudentMapper;
 import com.shf.spring.sms.mapper.TeacherMapper;
@@ -34,7 +35,22 @@ public class StudentController {
     @Autowired
     private ClassController classController;
 
-    @GetMapping("/student/studentList")
+    @ResponseBody
+    @GetMapping("/student/isAvailableStudentNO")
+    public HashMap<String, Object> isAvailableStudentNO(Student student){
+        Student room = StudentMapper.selectById(student.getStudentID());
+        HashMap<String, Object> map = new HashMap<>();
+        if (room == null){
+            map.put("code","100");
+            map.put("id",student.getStudentID());
+        } else {
+            map.put("code","500");
+            map.put("id",student.getStudentID());
+        }
+        return map;
+    }
+
+    @GetMapping("/student/studentListPage")
     public String toTeacherList(Model model){
         List<Student> studentList = StudentMapper.selectList(null);
         for (Student student : studentList) {

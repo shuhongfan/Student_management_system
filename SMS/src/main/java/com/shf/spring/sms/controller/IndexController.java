@@ -10,4 +10,9 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "welcome";
+    }
+
 }

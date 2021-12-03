@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("faculty")
 public class Faculty implements Serializable {
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer facultyNO; //#院系ID
     private String facultyName;  //#院系名称
 }
