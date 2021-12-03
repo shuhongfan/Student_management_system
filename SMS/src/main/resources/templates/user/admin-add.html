@@ -66,6 +66,28 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>对应学生ID：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="counsellorNO" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="s : ${studentList}" th:value="${s.studentID}" th:text="${s.name}">全部类型</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>对应老师ID：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="counsellorNO" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="t : ${teacherList}" th:value="${t.teacherID}" th:text="${t.name}">全部类型</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input id="submit" class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
@@ -81,6 +103,31 @@
 <script type="text/javascript" th:inline="javascript">
     $(function () {
             var ctxPath = [[@{/}]];
+                $.validator.addMethod(  //添加自定义验证函数
+                    "isAvailableUserName",       //自定义验证函数的名称
+                    function(value,element,params){
+                        var deferred = $.Deferred();//创建一个延迟对象
+                        $.ajax({        //发送Ajax请求
+                            type:"GET",
+                            async:false,
+                            url:ctxPath+"user/isAvailableUserName",
+                            dataType:"json",    //数据类型为json,发回的数据已自动解析
+                            data:{
+                                username:function(){return $("#username").val();},
+                            },
+                            success:function(data){
+                                if (data.code==100) {
+                                    console.log(100)
+                                    deferred.resolve();
+                                } else {
+                                    deferred.reject();
+                                }
+                            }
+                        });
+                        return deferred.state() == "resolved" ? true : false;
+                    },
+                    "用户名重复，请重新输入！！！"
+                );
             $('.skin-minimal input').iCheck({
                 checkboxClass: 'icheckbox-blue',
                 radioClass: 'iradio-blue',
@@ -91,7 +138,8 @@
                     username: {
                         required: true,
                         minlength: 4,
-                        maxlength: 16
+                        maxlength: 16,
+                        isAvailableUserName: true
                     },
                     password: {
                         required: true,

@@ -20,7 +20,7 @@
 	<table id="table" class="table table-border table-bordered table-hover table-bg table-sort" style="width: 100%;">
 		<thead>
 		<tr>
-			<th scope="col" colspan="9">员工列表</th>
+			<th scope="col" colspan="9">用户列表</th>
 		</tr>
 		<tr class="text-c">
 			<th width="25"><input id="checkbox" type="checkbox" name="" value=""></th>
@@ -29,6 +29,8 @@
 			<th width="150">密码</th>
 			<th width="150">用户类型</th>
 			<th width="100">是否已启用</th>
+			<th width="100">对应学生ID</th>
+			<th width="100">对应教师ID</th>
 			<th width="100">操作</th>
 		</tr>
 		</thead>
@@ -53,6 +55,8 @@
 			<td class="td-status"  th:if="${u.disabled==1}">
 				<span class="label radius">已禁用</span>
 			</td>
+			<td th:text="${u.contrastStudentID}">fhuj</td>
+			<td th:text="${u.contrastTeacherID}">fhuj</td>
 			<td class="td-manage">
 				<a th:if="${u.disabled==0}" style="text-decoration:none" th:onClick="admin_stop(this,[[${u.id}]])" href="javascript:;" title="停用">
 					<i class="Hui-iconfont">&#xe631;</i>

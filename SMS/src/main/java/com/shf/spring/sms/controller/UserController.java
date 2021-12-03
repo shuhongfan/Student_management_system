@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shf.spring.sms.entity.User;
 import com.shf.spring.sms.entity.Teacher;
 import com.shf.spring.sms.entity.User;
 import com.shf.spring.sms.mapper.UserMapper;
@@ -23,9 +24,33 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private StudentController studentController;
+
+    @Autowired
+    private TeacherController teacherController;
+
+    @ResponseBody
+    @GetMapping("/user/isAvailableUserName")
+    public HashMap<String, Object> isAvailableUserName(User useres){
+        User aUser = userMapper.selectOne(new QueryWrapper<User>().eq("username",useres.getUsername()));
+        HashMap<String, Object> map = new HashMap<>();
+        if (aUser == null){
+            map.put("code","100");
+            map.put("id",useres.getUsername());
+        } else {
+            map.put("code","500");
+            map.put("id",useres.getUsername());
+        }
+        return map;
+    }
+
     @GetMapping("/user/userListPage")
     public String toUserList(Model model){
         List<User> userList = userMapper.selectList(null);
+        for (User user : userList) {
+            user.setContrastStudentName(studentController.getStudentById(user.getContrastStudentID()).getName());
+        }
         model.addAttribute("userList",userList);
         return "user/admin-list";
     }

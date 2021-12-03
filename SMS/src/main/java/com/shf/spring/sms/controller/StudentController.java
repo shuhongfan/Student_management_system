@@ -35,6 +35,14 @@ public class StudentController {
     @Autowired
     private ClassController classController;
 
+    public List<Student> getStudentList(){
+       return StudentMapper.selectList(null);
+    }
+
+    public Student getStudentById(Integer id){
+        return StudentMapper.selectById(id);
+    }
+
     @ResponseBody
     @GetMapping("/student/isAvailableStudentNO")
     public HashMap<String, Object> isAvailableStudentNO(Student student){
