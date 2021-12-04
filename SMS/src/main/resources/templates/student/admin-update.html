@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="row cl">
+        <div th:if="${session.USER.type==2}" class="row cl">
             <label class="form-label col-xs-4 col-sm-3">
                 <span class="c-red">*</span>院系：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -48,6 +48,18 @@
 				<select  name="facultyNO" class="select valid" aria-required="true" aria-invalid="false">
 					<option th:each="f : ${facultyList}" th:selected="${f.facultyNO}==${student.facultyNO}" th:value="${f.facultyNO}" th:text="${f.facultyName}">全部类型</option>
 				</select>
+				</span>
+            </div>
+        </div>
+        <div th:if="${session.USER.type!=2}" class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>院系：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select readonly disabled="disabled"  name="facultyNO" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="f : ${facultyList}" th:selected="${f.facultyNO}==${student.facultyNO}" th:value="${f.facultyNO}" th:text="${f.facultyName}">全部类型</option>
+				</select>
+                    <input name="facultyNO" th:value="${student.facultyNO}" type="hidden" class="hidden" >
 				</span>
             </div>
         </div>

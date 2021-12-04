@@ -45,8 +45,8 @@
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户类型：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input type="radio" id="type-3" name="type" value="2" th:field="*{user.type}">
-                    <label for="type-3">管理员</label>
+                    <input type="radio" id="type-3" name="type" value="1" th:field="*{user.type}">
+                    <label for="type-3">老师</label>
                 </div>
             </div>
         </div>
@@ -61,6 +61,17 @@
                     <input type="radio" id="disabled-2" name="disabled" value="1" th:field="*{user.disabled}">
                     <label for="disabled-2">禁用</label>
                 </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>对应老师：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="contrastTeacherID" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="t : ${teacherList}" th:selected="${t.teacherID}==${user.contrastTeacherID}"  th:value="${t.teacherID}" th:text="${t.name}">全部类型</option>
+				</select>
+				</span>
             </div>
         </div>
         <div class="row cl">

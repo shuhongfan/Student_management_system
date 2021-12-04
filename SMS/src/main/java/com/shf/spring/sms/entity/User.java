@@ -27,6 +27,8 @@ public class User implements Serializable {
     private String contrastStudentName; //对应学生姓名
     @TableField(exist = false)
     private String contrastTeacherName; //对应老师姓名
+    @TableField(exist = false)
+    private Integer classNO; //对应学生班级
 
     @TableField(exist = false)
     private String captcha; //验证码

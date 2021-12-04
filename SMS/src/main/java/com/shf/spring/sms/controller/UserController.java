@@ -5,9 +5,9 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shf.spring.sms.entity.Student;
 import com.shf.spring.sms.entity.User;
 import com.shf.spring.sms.entity.Teacher;
-import com.shf.spring.sms.entity.User;
 import com.shf.spring.sms.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,12 @@ public class UserController {
     public String toUserList(Model model){
         List<User> userList = userMapper.selectList(null);
         for (User user : userList) {
-            user.setContrastStudentName(studentController.getStudentById(user.getContrastStudentID()).getName());
+            if (user.getContrastStudentID()!=null){
+                user.setContrastStudentName(studentController.getStudentById(user.getContrastStudentID()).getName());
+            }
+            if (user.getContrastTeacherID()!=null){
+                user.setContrastTeacherName(teacherController.getTeacherById(user.getContrastTeacherID()).getName());
+            }
         }
         model.addAttribute("userList",userList);
         return "user/admin-list";
@@ -58,8 +63,18 @@ public class UserController {
     @GetMapping("/user/userPage")
     public String userPage(User user,Model model){
         User u = userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()));
-        model.addAttribute("user",u);
-        return "user/admin-list2";
+        if (u.getContrastTeacherID()!=null){
+            Teacher teacherById = teacherController.getTeacherById(u.getContrastTeacherID());
+            u.setContrastTeacherName(teacherById.getName());
+        }
+        if (u.getContrastStudentID()!=null){
+            Student studentById = studentController.getStudentById(u.getContrastStudentID());
+            u.setContrastStudentName(studentById.getName());
+        }
+        ArrayList<User> users = new ArrayList<>();
+        users.add(u);
+        model.addAttribute("userList",users);
+        return "user/admin-list-public";
     }
 
     @GetMapping("/user/userListPaging/{num}/{size}")
@@ -154,8 +169,26 @@ public class UserController {
     }
 
     @GetMapping("/user/userAdd")
-    public String toUserAdd(){
+    public String toUserAdd(Model model){
+        List<Teacher> teachers = teacherController.teacherList();
+        model.addAttribute("teacherList",teachers);
+        List<Student> studentList = studentController.getStudentList();
+        model.addAttribute("studentList",studentList);
         return "user/admin-add";
+    }
+
+    @GetMapping("/user/userAddStudent")
+    public String toUserAddStudent(Model model){
+        List<Student> studentList = studentController.getStudentList();
+        model.addAttribute("studentList",studentList);
+        return "user/admin-add-student";
+    }
+
+    @GetMapping("/user/userAddTeacher")
+    public String toUserAddTeacher(Model model){
+        List<Teacher> teachers = teacherController.teacherList();
+        model.addAttribute("teacherList",teachers);
+        return "user/admin-add-teacher";
     }
 
     @ResponseBody
@@ -177,6 +210,22 @@ public class UserController {
         return map;
     }
 
+    @GetMapping("/user/userUpdateStudent/{id}")
+    public String userUpdateStudent(@PathVariable("id") Integer id,Model model){
+        User u = userMapper.selectById(id);
+        model.addAttribute("user",u);
+        List<Student> studentList = studentController.getStudentList();
+        model.addAttribute("studentList",studentList);
+        return "user/admin-update-student";
+    }
+    @GetMapping("/user/userUpdateTeacher/{id}")
+    public String userUpdateTeacher(@PathVariable("id") Integer id,Model model){
+        User u = userMapper.selectById(id);
+        model.addAttribute("user",u);
+        List<Teacher> teacherList = teacherController.teacherList();
+        model.addAttribute("teacherList",teacherList);
+        return "user/admin-update-teacher";
+    }
     @GetMapping("/user/userUpdate/{id}")
     public String toUserUpdate(@PathVariable("id") Integer id,Model model){
         User u = userMapper.selectById(id);
@@ -188,7 +237,7 @@ public class UserController {
     public String toUserUpdatePassword(@PathVariable("id") Integer id,Model model){
         User u = userMapper.selectById(id);
         model.addAttribute("user",u);
-        return "user/admin-update2";
+        return "user/change-password";
     }
 
     @ResponseBody

@@ -16,37 +16,31 @@
 <article class="page-container">
     <form class="form form-horizontal" id="form-admin-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>ID：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" readonly placeholder="" id="id" name="id" th:value="${user.id}">
-            </div>
-        </div>
-        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="username" name="username" th:value="${user.username}">
+                <input type="text" class="input-text" value="" placeholder="" id="username" name="username">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password"
-                       name="password" th:value="${user.password}">
+                       name="password">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
-                       name="password2" th:value="${user.password}">
+                       name="password2">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户类型：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input type="radio" id="type-3" name="type" value="2" th:field="*{user.type}">
-                    <label for="type-3">管理员</label>
+                    <input checked name="type" type="radio" id="type-1" value="0">
+                    <label for="type-1">学生</label>
                 </div>
             </div>
         </div>
@@ -54,13 +48,24 @@
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否可用：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="disabled" type="radio" id="disabled-1" value="0" th:field="*{user.disabled}">
+                    <input name="disabled" type="radio" id="disabled-1" value="0" checked>
                     <label for="disabled-1">可用</label>
                 </div>
                 <div class="radio-box">
-                    <input type="radio" id="disabled-2" name="disabled" value="1" th:field="*{user.disabled}">
+                    <input type="radio" id="disabled-2" name="disabled" value="1">
                     <label for="disabled-2">禁用</label>
                 </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>对应学生：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="contrastStudentID" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="s : ${studentList}" th:value="${s.studentID}" th:text="${s.name}">全部类型</option>
+				</select>
+				</span>
             </div>
         </div>
         <div class="row cl">
@@ -79,6 +84,31 @@
 <script type="text/javascript" th:inline="javascript">
     $(function () {
             var ctxPath = [[@{/}]];
+                $.validator.addMethod(  //添加自定义验证函数
+                    "isAvailableUserName",       //自定义验证函数的名称
+                    function(value,element,params){
+                        var deferred = $.Deferred();//创建一个延迟对象
+                        $.ajax({        //发送Ajax请求
+                            type:"GET",
+                            async:false,
+                            url:ctxPath+"user/isAvailableUserName",
+                            dataType:"json",    //数据类型为json,发回的数据已自动解析
+                            data:{
+                                username:function(){return $("#username").val();},
+                            },
+                            success:function(data){
+                                if (data.code==100) {
+                                    console.log(100)
+                                    deferred.resolve();
+                                } else {
+                                    deferred.reject();
+                                }
+                            }
+                        });
+                        return deferred.state() == "resolved" ? true : false;
+                    },
+                    "用户名重复，请重新输入！！！"
+                );
             $('.skin-minimal input').iCheck({
                 checkboxClass: 'icheckbox-blue',
                 radioClass: 'iradio-blue',
@@ -89,7 +119,8 @@
                     username: {
                         required: true,
                         minlength: 4,
-                        maxlength: 16
+                        maxlength: 16,
+                        isAvailableUserName: true
                     },
                     password: {
                         required: true,
@@ -111,11 +142,11 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post',
-                        url: ctxPath + "user/userUpdate",
+                        url: ctxPath + "user/userAdd",
                         success: function (data) {
                             console.log(data)
                             if (data.code == 100) {
-                                layer.msg('修改成功!', {icon: 1, time: 1000});
+                                layer.msg('添加成功!', {icon: 1, time: 1000});
                                 setTimeout(function() {
                                     var index = parent.layer.getFrameIndex(window.name);
                                     window.parent.location.reload();
@@ -123,7 +154,7 @@
                                 },2000)
                             }
                             if (data.code == 500) {
-                                layer.msg('修改失败!', {icon: 2, time: 1000});
+                                layer.msg('添加失败!', {icon: 2, time: 1000});
                             }
                         },
                         error: function (XmlHttpRequest, textStatus, errorThrown) {

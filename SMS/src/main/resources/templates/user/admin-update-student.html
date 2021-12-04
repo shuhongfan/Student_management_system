@@ -24,7 +24,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" readonly value="" placeholder="" id="username" name="username" th:value="${user.username}">
+                <input type="text" class="input-text" value="" placeholder="" id="username" name="username" th:value="${user.username}">
             </div>
         </div>
         <div class="row cl">
@@ -39,6 +39,39 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
                        name="password2" th:value="${user.password}">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户类型：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input type="radio" id="type-3" name="type" value="0" th:field="*{user.type}">
+                    <label for="type-3">学生</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否可用：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input name="disabled" type="radio" id="disabled-1" value="0" th:field="*{user.disabled}">
+                    <label for="disabled-1">可用</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="disabled-2" name="disabled" value="1" th:field="*{user.disabled}">
+                    <label for="disabled-2">禁用</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">
+                <span class="c-red">*</span>对应学生：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				<select  name="contrastStudentID" class="select valid" aria-required="true" aria-invalid="false">
+					<option th:each="s : ${studentList}" th:selected="${s.studentID}==${user.contrastStudentID}" th:value="${s.studentID}" th:text="${s.name}">全部类型</option>
+				</select>
+				</span>
             </div>
         </div>
         <div class="row cl">
@@ -89,7 +122,7 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post',
-                        url: ctxPath + "user/userUpdatePassword",
+                        url: ctxPath + "user/userUpdate",
                         success: function (data) {
                             console.log(data)
                             if (data.code == 100) {

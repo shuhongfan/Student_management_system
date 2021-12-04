@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,17 @@ public class StudentController {
             map.put("id",student.getStudentID());
         }
         return map;
+    }
+
+    @GetMapping("/student/studentPage")
+    public String studentPage(Student student,Model model){
+        System.out.println(student);
+        ArrayList<Student> students = new ArrayList<>();
+        Student s = StudentMapper.selectById(student.getStudentID());
+        s.setFacultyName(facultyController.getFacultyById(s.getFacultyNO()).getFacultyName());
+        students.add(s);
+        model.addAttribute("studentList",students);
+        return "student/admin-list-public";
     }
 
     @GetMapping("/student/studentListPage")

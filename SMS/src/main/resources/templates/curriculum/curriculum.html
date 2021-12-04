@@ -104,7 +104,7 @@
 <nav class="breadcrumb"><i class="Hui-iconfont"></i> 首页 <span class="c-gray en">&gt;</span> 课程表中心 <span class="c-gray en">&gt;</span> 我的课程表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:curriculum.replace(curriculum.href);" title="刷新"><i class="Hui-iconfont"></i></a></nav>
 <div class="page-container">
     <div class="text-c">
-        <span  th:if="${session.USER.type!=0}">
+        <span  th:if="${session.USER.type==2}">
             <label for="teacherID">教师</label>
             <span class="select-box inline">
             <select id="teacherID" class="select">
@@ -113,16 +113,36 @@
             </select>
             </span>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+            <label for="classNO">班级</label>
+            <span class="select-box inline">
+            <select id="classNO" class="select">
+                <option value="404">全部班级</option>
+                <option th:each="c: ${distinctClassNO}" th:selected="${#dates.format(new java.util.Date().getTime(), 'yyyy')}==${c.classNO}" th:value="${c.classNO}" th:text="${c.classNO}">全部分类</option>
+            </select>
+            </span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </span>
+        <span  th:if="${session.USER.type==0}">
+            <label for="classNO">班级</label>
+            <span class="select-box inline">
+            <select id="classNO" class="select">
+                <option selected th:value="${session.USER.classNO}" th:text="${session.USER.classNO+session.USER.contrastStudentName}">全部分类</option>
+            </select>
+            </span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </span>
 
-        <label for="classNO">班级</label>
-        <span class="select-box inline">
-		<select id="classNO" class="select">
-            <option value="404">全部班级</option>
-			<option th:each="c: ${distinctClassNO}" th:selected="${#dates.format(new java.util.Date().getTime(), 'yyyy')}==${c.classNO}" th:value="${c.classNO}" th:text="${c.classNO}">全部分类</option>
-		</select>
-		</span>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span  th:if="${session.USER.type==1}">
+            <label for="teacherID">教师</label>
+            <span class="select-box inline">
+            <select id="teacherID" class="select">
+                <option checked th:value="${session.USER.contrastTeacherID}" th:text="${session.USER.contrastTeacherID+session.USER.contrastTeacherName}">全部分类</option>
+            </select>
+            </span>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </span>
+
         <label for="schoolYear">学年</label>
         <span class="select-box inline">
 		<select id="schoolYear" class="select">

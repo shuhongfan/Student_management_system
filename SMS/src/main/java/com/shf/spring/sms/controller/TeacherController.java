@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,16 @@ public class TeacherController {
 
     public List<Teacher> teacherList(){
         return teacherMapper.selectList(null);
+    }
+
+    @GetMapping("/teacher/teacherPage")
+    public String teacherPage(Teacher teacher,Model model){
+        ArrayList<Teacher> teachers = new ArrayList<>();
+        Teacher s = teacherMapper.selectById(teacher.getTeacherID());
+        s.setFacultyName(facultyController.getFacultyById(s.getFacultyNO()).getFacultyName());
+        teachers.add(s);
+        model.addAttribute("teacherList",teachers);
+        return "teacher/admin-list-public";
     }
 
     @GetMapping("/teacher/teacherListPage")

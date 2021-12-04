@@ -23,7 +23,9 @@
                     <li th:if="${session.USER.type==1}">老师</li>
                     <li th:if="${session.USER.type==2}">管理员</li>
                     <li class="dropDown dropDown_hover">
-                        <a href="#" class="dropDown_A" th:text="${session.USER.username}">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <a th:if="${session.USER.type==0}" href="#" class="dropDown_A" th:text="${session.USER.username+session.USER.contrastStudentName+session.USER.contrastStudentID}">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <a th:if="${session.USER.type==1}" href="#" class="dropDown_A" th:text="${session.USER.username+session.USER.contrastTeacherName}">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <a th:if="${session.USER.type==2}" href="#" class="dropDown_A" th:text="${session.USER.username}">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
                         <ul class="dropDown-menu menu radius box-shadow">
                             <li><a th:href="@{/logout}" onclick="window.location.reload();">退出</a></li>
                         </ul>
@@ -129,6 +131,22 @@
             <dd>
                 <ul>
                     <li><a th:data-href="@{/curriculum/myCurriculumPage}" data-title="我的课程表" href="javascript:void(0)">我的课程表</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl th:if="${session.USER.type==1}" id="menu-teacher2">
+            <dt><i class="Hui-iconfont">&#xe60d;</i> 教工管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a th:data-href="@{/teacher/teacherPage?teacherID=}+${session.USER.contrastTeacherID}" data-title="教工列表" href="javascript:;">教工列表</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl th:if="${session.USER.type==0}" id="menu-student2">
+            <dt><i class="Hui-iconfont">&#xe60d;</i> 学生管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a th:data-href="@{/student/studentPage?studentID=}+${session.USER.contrastStudentID}" data-title="学生列表" href="javascript:;">学生列表</a></li>
                 </ul>
             </dd>
         </dl>

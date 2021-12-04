@@ -1,7 +1,10 @@
 package com.shf.spring.sms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.shf.spring.sms.entity.Student;
+import com.shf.spring.sms.entity.Teacher;
 import com.shf.spring.sms.entity.User;
+import com.shf.spring.sms.mapper.StudentMapper;
 import com.shf.spring.sms.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,12 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private StudentController studentController;
+
+    @Autowired
+    private TeacherController teacherController;
 
     @GetMapping("/login")
     public String toLogin(){
@@ -40,6 +49,15 @@ public class LoginController {
                         model.addAttribute("info","登录成功！！！");
                         User u = userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()));
                         u.setPassword("******");
+                        if (u.getContrastStudentID()!=null){
+                            Student student = studentController.getStudentById(u.getContrastStudentID());
+                            u.setClassNO(student.getClassNO());
+                            u.setContrastStudentName(student.getName());
+                        }
+                        if (u.getContrastTeacherID()!=null){
+                            Teacher teacher = teacherController.getTeacherById(u.getContrastTeacherID());
+                            u.setContrastTeacherName(teacher.getName());
+                        }
                         httpSession.setAttribute("USER",u);
                         return "redirect:index";
                     } else {

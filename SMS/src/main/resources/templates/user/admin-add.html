@@ -39,15 +39,7 @@
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户类型：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="type" type="radio" id="type-1" value="0" checked>
-                    <label for="type-1">学生</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" id="type-2" name="type" value="1">
-                    <label for="type-2">老师</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" id="type-3" name="type" value="2">
+                    <input checked type="radio" id="type-3" name="type" value="2">
                     <label for="type-3">管理员</label>
                 </div>
             </div>
@@ -63,28 +55,6 @@
                     <input type="radio" id="disabled-2" name="disabled" value="1">
                     <label for="disabled-2">禁用</label>
                 </div>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">
-                <span class="c-red">*</span>对应学生ID：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <span class="select-box">
-				<select  name="counsellorNO" class="select valid" aria-required="true" aria-invalid="false">
-					<option th:each="s : ${studentList}" th:value="${s.studentID}" th:text="${s.name}">全部类型</option>
-				</select>
-				</span>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">
-                <span class="c-red">*</span>对应老师ID：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <span class="select-box">
-				<select  name="counsellorNO" class="select valid" aria-required="true" aria-invalid="false">
-					<option th:each="t : ${teacherList}" th:value="${t.teacherID}" th:text="${t.name}">全部类型</option>
-				</select>
-				</span>
             </div>
         </div>
         <div class="row cl">

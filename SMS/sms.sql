@@ -3,15 +3,15 @@
 
  Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 50736
+ Source Server Version : 50735
  Source Host           : localhost:3306
  Source Schema         : sms
 
  Target Server Type    : MySQL
- Target Server Version : 50736
+ Target Server Version : 50735
  File Encoding         : 65001
 
- Date: 03/12/2021 17:48:01
+ Date: 04/12/2021 18:26:14
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `class`  (
   `year` date NULL DEFAULT NULL,
   `counsellorNO` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`classNO`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32323 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32323 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of class
@@ -49,7 +49,7 @@ CREATE TABLE `classroom`  (
   `state` int(11) NULL DEFAULT NULL,
   `locationNo` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`classRoomNO`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 506 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 506 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of classroom
@@ -77,7 +77,7 @@ CREATE TABLE `course`  (
   `hour` int(11) NULL DEFAULT NULL,
   `credit` double NULL DEFAULT NULL,
   PRIMARY KEY (`courseID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33653 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33653 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of course
@@ -143,7 +143,7 @@ CREATE TABLE `curriculum`  (
   `locationNo` bigint(20) NULL DEFAULT NULL,
   `classRoomNO` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of curriculum
@@ -174,7 +174,7 @@ CREATE TABLE `faculty`  (
   `facultyNO` bigint(20) NOT NULL AUTO_INCREMENT,
   `facultyName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`facultyNO`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of faculty
@@ -205,7 +205,7 @@ CREATE TABLE `location`  (
   `locationNo` bigint(20) NOT NULL AUTO_INCREMENT,
   `locationName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`locationNo`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of location
@@ -237,12 +237,12 @@ CREATE TABLE `student`  (
   `remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sex` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`studentID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1913013 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1913013 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES (191301, '王林    ', '1995-02-10', 14, 1, '湖北省武汉市', '13437777777', '提前修完“数据结构“', 1);
+INSERT INTO `student` VALUES (191301, '王林1', '2010-12-31', 14, 2, '湖北省武汉市', '1343888888', '提前修完“数据结构“', 0);
 INSERT INTO `student` VALUES (191302, '程明    ', '1996-02-01', 14, 2, '湖北省武汉市', '13437777777', '班长', 1);
 INSERT INTO `student` VALUES (191303, '王燕    ', '1994-10-06', 14, 2, '湖北省武汉市', '13437777777', '三好生', 0);
 INSERT INTO `student` VALUES (191304, '韦严平  ', '1995-08-26', 5, 1, '湖北省武汉市', '13437777777', 'C++语言不及格，待补考', 1);
@@ -279,13 +279,13 @@ CREATE TABLE `teacher`  (
   `speciality` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`teacherID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of teacher
 -- ----------------------------
 INSERT INTO `teacher` VALUES (12, '舒洪凡', 100, '神学', '教室');
-INSERT INTO `teacher` VALUES (13, '郑艳君', 14, '计算机', '讲师');
+INSERT INTO `teacher` VALUES (13, '郑艳君', 14, '计算机java', '讲师');
 INSERT INTO `teacher` VALUES (14, '黄兰英呃42342', 2, '法律', '无');
 INSERT INTO `teacher` VALUES (15, '夏建勋', 14, '计算机', '讲师');
 INSERT INTO `teacher` VALUES (16, '陈国志', 14, '计算机', '讲师');
@@ -312,7 +312,7 @@ CREATE TABLE `user`  (
   `contrastStudentID` int(11) NULL DEFAULT NULL,
   `contrastTeacherID` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
@@ -322,7 +322,7 @@ INSERT INTO `user` VALUES (4, 'shf', 'shf', 2, 0, NULL, NULL);
 INSERT INTO `user` VALUES (5, 'zhangsan', 'zhangsan', 2, 0, NULL, NULL);
 INSERT INTO `user` VALUES (8, 'abc', 'abc', 0, 0, 191302, NULL);
 INSERT INTO `user` VALUES (9, 'lisi', 'lisi', 0, 0, 191303, NULL);
-INSERT INTO `user` VALUES (11, 'class', 'class', 1, 1, NULL, 12);
+INSERT INTO `user` VALUES (11, 'class', 'clazz', 1, 0, NULL, 13);
 INSERT INTO `user` VALUES (12, 'zhangsan3333333', '123456', 1, 1, NULL, 13);
 INSERT INTO `user` VALUES (13, 'superbaby1', 'superbaby1', 0, 0, 191304, NULL);
 INSERT INTO `user` VALUES (14, 'superbaby2', 'superbaby2', 0, 0, 191306, NULL);
@@ -331,5 +331,9 @@ INSERT INTO `user` VALUES (18, 'zhangsan232', 'zhangsan232', 0, 0, 191307, NULL)
 INSERT INTO `user` VALUES (19, 'zhangsan', '32', 0, 0, 191308, NULL);
 INSERT INTO `user` VALUES (21, 'hahah', 'hahah', 0, 0, 191309, NULL);
 INSERT INTO `user` VALUES (24, 'zhangsan324', '12345', 0, 0, 191310, NULL);
+INSERT INTO `user` VALUES (25, 'jcbb', 'jcbb', 2, 0, NULL, NULL);
+INSERT INTO `user` VALUES (26, 'xuesheng1', 'xs11', 0, 1, 191301, NULL);
+INSERT INTO `user` VALUES (27, 'xue1', 'xue1', 0, 0, 191301, NULL);
+INSERT INTO `user` VALUES (28, 'laosi1', 'laosi1', 1, 0, NULL, 12);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -14,13 +14,15 @@
 <div class="page-container">
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
-			<a href="javascript:;" onclick="deleteBatchIds()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-			<a href="javascript:;" th:onclick="admin_add('添加用户',[[@{/}]]+'user/userAdd','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong id="count" th:text="${userList.size()}">88</strong> 条</span> </div>
+			<a href="javascript:;" onclick="deleteBatchIds()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>&nbsp;
+			<a href="javascript:;" th:onclick="admin_add('添加管理员',[[@{/}]]+'user/userAdd','','450')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> &nbsp;
+			<a href="javascript:;" th:onclick="admin_add('添加学生',[[@{/}]]+'user/userAddStudent','','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加学生</a></span>&nbsp;
+			<a href="javascript:;" th:onclick="admin_add('添加老师',[[@{/}]]+'user/userAddTeacher','','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加老师</a></span>
 	<div class="mt-20">
 	<table id="table" class="table table-border table-bordered table-hover table-bg table-sort" style="width: 100%;">
 		<thead>
 		<tr>
-			<th scope="col" colspan="9">用户列表</th>
+			<th scope="col" colspan="11">用户列表</th>
 		</tr>
 		<tr class="text-c">
 			<th width="25"><input id="checkbox" type="checkbox" name="" value=""></th>
@@ -30,7 +32,9 @@
 			<th width="150">用户类型</th>
 			<th width="100">是否已启用</th>
 			<th width="100">对应学生ID</th>
+			<th width="100">对应学生姓名</th>
 			<th width="100">对应教师ID</th>
+			<th width="100">对应教师姓名</th>
 			<th width="100">操作</th>
 		</tr>
 		</thead>
@@ -56,7 +60,9 @@
 				<span class="label radius">已禁用</span>
 			</td>
 			<td th:text="${u.contrastStudentID}">fhuj</td>
+			<td th:text="${u.contrastStudentName}">fhuj</td>
 			<td th:text="${u.contrastTeacherID}">fhuj</td>
+			<td th:text="${u.contrastTeacherName}">fhuj</td>
 			<td class="td-manage">
 				<a th:if="${u.disabled==0}" style="text-decoration:none" th:onClick="admin_stop(this,[[${u.id}]])" href="javascript:;" title="停用">
 					<i class="Hui-iconfont">&#xe631;</i>
@@ -64,7 +70,16 @@
 				<a th:if="${u.disabled==1}" style="text-decoration:none" th:onClick="admin_start(this,[[${u.id}]])" href="javascript:;" title="启用">
 					<i class="Hui-iconfont">&#xe615;</i>
 				</a>
-				<a title="编辑" href="javascript:;" th:onclick="admin_edit('用户编辑',[[@{/}]]+'user/userUpdate/'+[[${u.id}]],[[${u.id}]],'800','500')" class="ml-5" style="text-decoration:none">
+				<a style="text-decoration:none" class="ml-5" th:onclick="change_password('修改密码',[[@{/}]]+'user/userUpdatePassword/'+[[${u.id}]],[[${u.id}]],'600','300')" href="javascript:;" title="修改密码">
+					<i class="Hui-iconfont"></i>
+				</a>
+				<a th:if="${u.type==0}" title="学生编辑" href="javascript:;" th:onclick="admin_edit('学生编辑',[[@{/}]]+'user/userUpdateStudent/'+[[${u.id}]],[[${u.id}]],'800','500')" class="ml-5" style="text-decoration:none">
+					<i class="Hui-iconfont">&#xe6df;</i>
+				</a>
+				<a th:if="${u.type==1}" title="老师编辑" href="javascript:;" th:onclick="admin_edit('老师编辑',[[@{/}]]+'user/userUpdateTeacher/'+[[${u.id}]],[[${u.id}]],'800','500')" class="ml-5" style="text-decoration:none">
+					<i class="Hui-iconfont">&#xe6df;</i>
+				</a>
+				<a th:if="${u.type==2}" title="管理员编辑" href="javascript:;" th:onclick="admin_edit('管理员编辑',[[@{/}]]+'user/userUpdate/'+[[${u.id}]],[[${u.id}]],'800','500')" class="ml-5" style="text-decoration:none">
 					<i class="Hui-iconfont">&#xe6df;</i>
 				</a>
 				<a title="删除" href="javascript:;" th:onclick="admin_del(this,[[${u.id}]])" class="ml-5" style="text-decoration:none">
@@ -144,7 +159,9 @@
 							$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
 							$(obj).remove();
 							layer.msg('已停用!',{icon: 5,time:1000});
-							// window.location.reload();
+							setInterval(function() {
+								window.location.reload();
+							},2000)
 						}
 						if (data.code==500){
 							layer.msg('停用失败!',{icon:2,time:1000});
@@ -174,7 +191,9 @@
 							$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
 							$(obj).remove();
 							layer.msg('已启用!', {icon: 6,time:1000});
-							// window.location.reload();
+							setInterval(function() {
+								window.location.reload();
+							},2000)
 						}
 						if (data.code==500){
 							layer.msg('启用失败!',{icon:2,time:1000});
@@ -186,6 +205,10 @@
 					},
 				});
 			});
+		}
+		/*密码-修改*/
+		function change_password(title,url,id,w,h){
+			layer_show(title,url,w,h);
 		}
 
 		function deleteBatchIds () {
