@@ -13,7 +13,8 @@
 
  Date: 04/12/2021 18:26:14
 */
-
+create database sms;
+use sms;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
