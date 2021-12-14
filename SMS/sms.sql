@@ -3,18 +3,19 @@
 
  Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 50735
+ Source Server Version : 50736
  Source Host           : localhost:3306
  Source Schema         : sms
 
  Target Server Type    : MySQL
- Target Server Version : 50735
+ Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 04/12/2021 18:26:14
+ Date: 14/12/2021 11:09:30
 */
-create database sms;
-use sms;
+CREATE DATABASE sms;
+USE sms;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -29,7 +30,7 @@ CREATE TABLE `class`  (
   `year` date NULL DEFAULT NULL,
   `counsellorNO` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`classNO`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32323 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 756 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of class
@@ -50,7 +51,7 @@ CREATE TABLE `classroom`  (
   `state` int(11) NULL DEFAULT NULL,
   `locationNo` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`classRoomNO`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 506 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1011 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of classroom
@@ -67,6 +68,7 @@ INSERT INTO `classroom` VALUES (204, 60, 1, 0, 1);
 INSERT INTO `classroom` VALUES (301, 60, 1, 0, 1);
 INSERT INTO `classroom` VALUES (302, 60, 1, 0, 1);
 INSERT INTO `classroom` VALUES (303, 60, 1, 0, 1);
+INSERT INTO `classroom` VALUES (1010, 66, 1, 1, 32);
 
 -- ----------------------------
 -- Table structure for course
@@ -78,7 +80,7 @@ CREATE TABLE `course`  (
   `hour` int(11) NULL DEFAULT NULL,
   `credit` double NULL DEFAULT NULL,
   PRIMARY KEY (`courseID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33653 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of course
@@ -144,7 +146,7 @@ CREATE TABLE `curriculum`  (
   `locationNo` bigint(20) NULL DEFAULT NULL,
   `classRoomNO` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20210104 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of curriculum
@@ -162,10 +164,16 @@ INSERT INTO `curriculum` VALUES (15, 1, 1, 13, 2021, 0, 1, 18, 1, 4, 1, 101);
 INSERT INTO `curriculum` VALUES (16, 2, 1, 14, 2018, 0, 1, 18, 2, 6, 2, 202);
 INSERT INTO `curriculum` VALUES (17, 3, 2, 15, 2019, 0, 1, 18, 4, 8, 1, 101);
 INSERT INTO `curriculum` VALUES (18, 4, 1, 16, 2033, 0, 1, 18, 5, 5, 1, 301);
-INSERT INTO `curriculum` VALUES (19, 5, 2, 17, 2044, 0, 1, 18, 2, 2, 1, 204);
+INSERT INTO `curriculum` VALUES (19, 5, 2, 17, 2021, 0, 1, 18, 2, 2, 1, 204);
 INSERT INTO `curriculum` VALUES (20, 1, 1, 13, 2020, 0, 1, 18, 1, 4, 1, 101);
+INSERT INTO `curriculum` VALUES (100, 3, 1, 13, 2021, 0, 1, 18, 3, 5, 1, 101);
+INSERT INTO `curriculum` VALUES (101, 3, 1, 13, 2021, 0, 1, 18, 3, 6, 1, 101);
+INSERT INTO `curriculum` VALUES (102, 30, 1, 21, 2021, 0, 1, 20, 4, 1, 7, 203);
 INSERT INTO `curriculum` VALUES (111, 7, 1, 17, 2021, 1, 5, 20, 1, 1, 2, 101);
 INSERT INTO `curriculum` VALUES (112, 7, 1, 17, 2021, 1, 5, 20, 1, 2, 2, 101);
+INSERT INTO `curriculum` VALUES (200, 6, 322, 18, 2021, 0, 1, 18, 1, 7, 1, 201);
+INSERT INTO `curriculum` VALUES (5060, 40, 1, 12, 2021, 0, 5, 18, 6, 5, 22, 301);
+INSERT INTO `curriculum` VALUES (20210103, 10, 1, 18, 2021, 0, 5, 18, 5, 3, 1, 302);
 
 -- ----------------------------
 -- Table structure for faculty
@@ -217,7 +225,7 @@ INSERT INTO `location` VALUES (4, '教4楼');
 INSERT INTO `location` VALUES (6, '计科楼');
 INSERT INTO `location` VALUES (7, '经法楼');
 INSERT INTO `location` VALUES (8, '体育馆');
-INSERT INTO `location` VALUES (22, '三里');
+INSERT INTO `location` VALUES (22, '凌峰楼');
 INSERT INTO `location` VALUES (32, '德育楼');
 INSERT INTO `location` VALUES (33, '计科楼');
 INSERT INTO `location` VALUES (34, '明德楼');
@@ -243,7 +251,7 @@ CREATE TABLE `student`  (
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES (191301, '王林1', '2010-12-31', 14, 2, '湖北省武汉市', '1343888888', '提前修完“数据结构“', 0);
+INSERT INTO `student` VALUES (191301, '王林1', '2010-12-31', 14, 1, '湖北省武汉市', '1343888888', '提前修完“数据结构“4334', 0);
 INSERT INTO `student` VALUES (191302, '程明    ', '1996-02-01', 14, 2, '湖北省武汉市', '13437777777', '班长', 1);
 INSERT INTO `student` VALUES (191303, '王燕    ', '1994-10-06', 14, 2, '湖北省武汉市', '13437777777', '三好生', 0);
 INSERT INTO `student` VALUES (191304, '韦严平  ', '1995-08-26', 5, 1, '湖北省武汉市', '13437777777', 'C++语言不及格，待补考', 1);
@@ -280,7 +288,7 @@ CREATE TABLE `teacher`  (
   `speciality` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`teacherID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of teacher
@@ -323,7 +331,7 @@ INSERT INTO `user` VALUES (4, 'shf', 'shf', 2, 0, NULL, NULL);
 INSERT INTO `user` VALUES (5, 'zhangsan', 'zhangsan', 2, 0, NULL, NULL);
 INSERT INTO `user` VALUES (8, 'abc', 'abc', 0, 0, 191302, NULL);
 INSERT INTO `user` VALUES (9, 'lisi', 'lisi', 0, 0, 191303, NULL);
-INSERT INTO `user` VALUES (11, 'class', 'clazz', 1, 0, NULL, 13);
+INSERT INTO `user` VALUES (11, 'class', 'class', 1, 0, NULL, 13);
 INSERT INTO `user` VALUES (12, 'zhangsan3333333', '123456', 1, 1, NULL, 13);
 INSERT INTO `user` VALUES (13, 'superbaby1', 'superbaby1', 0, 0, 191304, NULL);
 INSERT INTO `user` VALUES (14, 'superbaby2', 'superbaby2', 0, 0, 191306, NULL);

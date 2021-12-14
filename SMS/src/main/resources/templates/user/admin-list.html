@@ -22,13 +22,12 @@
 	<table id="table" class="table table-border table-bordered table-hover table-bg table-sort" style="width: 100%;">
 		<thead>
 		<tr>
-			<th scope="col" colspan="11">用户列表</th>
+			<th scope="col" colspan="10">用户列表</th>
 		</tr>
 		<tr class="text-c">
 			<th width="25"><input id="checkbox" type="checkbox" name="" value=""></th>
 			<th width="40">ID</th>
 			<th width="150">登录名</th>
-			<th width="150">密码</th>
 			<th width="150">用户类型</th>
 			<th width="100">是否已启用</th>
 			<th width="100">对应学生ID</th>
@@ -43,7 +42,6 @@
 			<td><input type="checkbox" value="1" th:name="${u.id}"></td>
 			<td th:text="${u.id}">1</td>
 			<td th:text="${u.username}">admin</td>
-			<td th:text="${u.password}">fhuj</td>
 			<td class="td-type" th:if="${u.type==0}">
 				<span class="label label-success radius">学生</span>
 			</td>
