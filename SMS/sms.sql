@@ -11,11 +11,10 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 14/12/2021 11:09:30
+ Date: 17/12/2021 09:22:33
 */
 CREATE DATABASE sms;
 USE sms;
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -293,7 +292,7 @@ CREATE TABLE `teacher`  (
 -- ----------------------------
 -- Records of teacher
 -- ----------------------------
-INSERT INTO `teacher` VALUES (12, '舒洪凡', 100, '神学', '教室');
+INSERT INTO `teacher` VALUES (12, '舒洪凡', 100, '神学', '教授');
 INSERT INTO `teacher` VALUES (13, '郑艳君', 14, '计算机java', '讲师');
 INSERT INTO `teacher` VALUES (14, '黄兰英呃42342', 2, '法律', '无');
 INSERT INTO `teacher` VALUES (15, '夏建勋', 14, '计算机', '讲师');
