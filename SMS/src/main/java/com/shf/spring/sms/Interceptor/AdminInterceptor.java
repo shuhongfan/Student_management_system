@@ -19,6 +19,15 @@ public class AdminInterceptor implements HandlerInterceptor  {
             //统一拦截（查询当前session是否存在user）(这里user会在每次登陆成功后，写入session)
             User user=(User)request.getSession().getAttribute("USER");
             if(user!=null){
+                String uri=request.getRequestURI();
+                String ctx=request.getContextPath();
+                if(ctx!=null && ctx.length()>0 && uri.startsWith(ctx)){
+                    uri=uri.substring(ctx.length());
+                }
+                if(uri.startsWith("/user/") && (user.getType()==null || user.getType()!=2)){
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    return false;
+                }
                 return true;
             }
             response.sendRedirect(request.getContextPath()+"/login");
